@@ -14,12 +14,14 @@ const mostrarProductos = (datos) => {
         style="width: 100%; max-width: 300px; margin:30px">
         <img src="${dato.imagen}" class="card-img-top" alt="...">
         <div class="card-body ">
-            <h4>${dato.titulo}</h4>
+            <h4>${dato.titulo}</h4><h6 class="mb-4">${dato.precio}</h6>
             <p class="card-text ">${dato.descripcion}
             </p>
         </div>
+        
+ 
         <button class="btn btn-outline-dark mt-auto mb-3" type="submit">Comprar</button>
-
+       
     </div>
 
         `;
