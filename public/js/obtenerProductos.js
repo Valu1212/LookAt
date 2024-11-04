@@ -1,10 +1,11 @@
- fetch('./json/datos.json')
+fetch('http://localhost:3000/productos')
 .then (respuesta => respuesta.json())
 // .then (datos => console.log (datos))
 .then (datos => mostrarProductos(datos))
 
+let productos = ''
 const mostrarProductos = (datos) => {
-    let productos = ''
+    
      const contenedor = document.querySelector('#contenedor')
      
      datos.forEach(dato => {
@@ -14,18 +15,24 @@ const mostrarProductos = (datos) => {
         style="width: 100%; max-width: 300px; margin:30px">
         <img src="${dato.imagen}" class="card-img-top" alt="...">
         <div class="card-body ">
-            <h4>${dato.titulo}</h4><h6 class="mb-4">${dato.precio}</h6>
+            <h4>${dato.titulo}</h4>
             <p class="card-text ">${dato.descripcion}
             </p>
+     
         </div>
-        
- 
-        <button class="btn btn-outline-dark mt-auto mb-3" type="submit">Comprar</button>
        
+        <div class="card-precio-comprar d-flex justify-content-center align-items-center w-100 px-3 ">
+            <p class="card-text ">$${dato.precio}</p>    
+            
+            <button class="btn btn-outline-success mt-auto mb-3 m-3" type="submit">Comprar</button>
+        </div>
+
     </div>
 
         `;
      });
+
      contenedor.innerHTML = productos 
 
 }
+
