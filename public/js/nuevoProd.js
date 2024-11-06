@@ -1,9 +1,10 @@
-   document.getElementById('añadir').addEventListener('click', function() {
-            document.getElementById('prodNuevo').style.display = 'block';
-            document.getElementById('prodEditar').style.display = 'none';
-        });
+document.getElementById('añadir').addEventListener('click', function() {
+    const prodNuevo = document.getElementById('prodNuevo'); 
+    if (prodNuevo.style.display === 'none' || prodNuevo.style.display === '') {
+        prodNuevo.style.display = 'block'; 
+     
+    } else {
+        prodNuevo.style.display = 'none'; 
+    }
 
-        document.getElementById('editar').addEventListener('click', function() {
-            document.getElementById('prodEditar').style.display = 'block';
-            document.getElementById('prodNuevo').style.display = 'none';
-        });
+});

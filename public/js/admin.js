@@ -1,4 +1,6 @@
 const endpoint = 'https://lookat.onrender.com/productos'
+// const endpoint = 'http://localhost:3000/productos'
+
 mostrarMensaje = (mensaje) => {
   document.querySelector('#contMensaje').innerHTML = mensaje
 }
@@ -7,6 +9,8 @@ document.getElementById('añadir').addEventListener('click', function () {
   const formulario = document.getElementById('prodNuevo');
   formulario.classList.toggle('new');
 });
+
+
 
 // fetch(endpoint)
 //   .then(respuesta => respuesta.json())
@@ -177,71 +181,65 @@ const eliminar = (id) => {
 
 }
 
-const formEditar = document.forms['formEditar']
+// Editar Producto
+const formEditar = document.forms['formEditar'];
 const editar = (id) => {
   const formulario = document.getElementById('prodEditar');
+  
+  // Obtener el producto correspondiente
+  let prodEditar = productosRecibidos.find((prod) => prod.id == id);
+
+  // Asigna valores al formulario de edición
+  formEditar.idEditar.value = prodEditar.id;
+  formEditar.Titulo.value = prodEditar.titulo;
+  formEditar.Descripcion.value = prodEditar.descripcion;
+  formEditar.Precio.value = prodEditar.precio;
+
+  // Alternar la clase 'newE' para mostrar/ocultar el formulario
   formulario.classList.toggle('newE');
-  console.log(id)
-  //Contenedor de datos del producto
-  let prodEditar = {}
-  productosRecibidos.filter(prod => {
-    if (prod.id == id) {
-      prodEditar = prod
-      console.log(prodEditar)
-    }
+};
 
-  })
-  //asigno los valores a los campos del formulario
-  formEditar.idEditar.value = prodEditar.id
-  formEditar.titulo.value = prodEditar.titulo
-  formEditar.descripcion.value = prodEditar.descripcion
-  formEditar.precio.value = prodEditar.precio
-
-
-}
-
-
+// Lógica para enviar los datos del formulario de edición
 formEditar.addEventListener('submit', (event) => {
   event.preventDefault();
-  //creo objeto con nuevos datos
+
   const nuevosDatos = {
     id: formEditar.idEditar.value,
-    titulo: formEditar.titulo.value,
-    descripcion: formEditar.descripcion.value,
-    precio: formEditar.precio.value
-  }
+    titulo: formEditar.Titulo.value,
+    descripcion: formEditar.Descripcion.value,
+    precio: formEditar.Precio.value,
+  };
 
+  // Validación de campos vacíos
   if (!nuevosDatos.titulo || !nuevosDatos.descripcion || !nuevosDatos.precio) {
-    document.querySelector('#mensajeEditar').innerHTML = 'Modificando'
-    return
+    document.querySelector('#mensajeEditar').innerHTML = '*No hay datos que modificar';
+    return;
+  } else {
+    document.querySelector('#mensajeEditar').innerHTML = 'Modificando';
   }
-  else {
-    document.querySelector('#mensajeEditar').innerHTML = '*No hay datos que modificar'
-    // return
-  }
-  //valudacion de campos vacios igual anterior
-  let nuevosDatosJson = JSON.stringify(nuevosDatos)
-  console.log(nuevosDatosJson)
 
-  const enviarNuevosDatos = async() => {
+  let nuevosDatosJson = JSON.stringify(nuevosDatos);
+  console.log(nuevosDatosJson);
+
+  const enviarNuevosDatos = async () => {
     try {
-      const res = await fetch(endpoint + '/' + id, {
-        method: 'put',
+      const res = await fetch(endpoint + '/' + nuevosDatos.id, {
+        method: 'PUT',
         headers: {
           'content-type': 'application/json'
         },
         body: nuevosDatosJson
-      })
-      const respuesta = await enviarDatos.json()
-      console.log(respuesta)
-      mostrarMensaje(respuesta.mensajeEditar) //mensajeEditar
+      });
+      const respuesta = await res.json();
+      console.log(respuesta);
+      mostrarMensaje(respuesta.mensajeEditar);
+    } catch (error) {
+      mostrarMensaje('Error al modificar datos');
     }
-    catch (error) {
-      mostrarMensaje('error al modificar datos')
-    }
+
     setTimeout(() => {
       location.reload();
-    }, 2500)
-  }
+    }, 2500);
+  };
   enviarNuevosDatos();
-})
+});
